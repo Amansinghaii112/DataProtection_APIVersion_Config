@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataProtection_APIVersion_Config;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace DataProtection.Controllers
 {
@@ -14,10 +15,13 @@ namespace DataProtection.Controllers
     public class EncryptionDecryptionController : ControllerBase
     {
         private IDataProtectionService _dataProtectionService { get; }
+        public IOptions<FormatSettings> _options { get; }
 
-        public EncryptionDecryptionController(IDataProtectionService dataProtectionService)
+        public EncryptionDecryptionController(IDataProtectionService dataProtectionService, IOptions<FormatSettings> _option)
         {
             _dataProtectionService = dataProtectionService;
+            _options = _option;
+            int num = _options.Value.Number.Precision;
         }
 
         [HttpGet("Encrypt/{input}")]
