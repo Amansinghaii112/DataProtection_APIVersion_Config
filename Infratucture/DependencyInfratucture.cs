@@ -11,7 +11,7 @@ namespace DataProtection
         {
 
             var formatSettings = config.GetSection("Formatting").Get<FormatSettings>();
-            formatSettings.Flag = config.GetSection("Formatting")["Localize"].ToLower() == "true";
+            formatSettings.Flag = config.GetValue<bool>("Formatting:Localize");
             var formatSettingsBind = new FormatSettings();
             config.GetSection("Formatting").Bind(formatSettingsBind);
             //services.Configure<FormatSettings>(config.GetSection("Formatting"));
