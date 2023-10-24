@@ -6,10 +6,9 @@ namespace DataProtection
     {
         private IDataProtector _protector { get; set; }
 
-        public DataProtectionService(IDataProtectionProvider provider, IConfiguration config)
+        public DataProtectionService(IDataProtector protector)
         {
-            string dataProtectionSecretKey = config.GetValue<string>("DataProtectionSecretKey");
-            _protector = provider.CreateProtector(dataProtectionSecretKey);
+            _protector = protector;
         }
 
         public string Decrypt(string cipher)

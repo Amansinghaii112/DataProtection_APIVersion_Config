@@ -25,7 +25,7 @@ namespace DataProtection
             });
 
             builder.Services.AddControllers();
-            builder.Services.DependencyRegister();
+            builder.Services.DependencyRegister(builder.Configuration);
 
             //"This operates according to the Last-In-First-Out (LIFO) pattern,
             //which means that if duplicate keys exist in multiple configuration files,

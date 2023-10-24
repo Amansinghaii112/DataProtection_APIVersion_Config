@@ -5,17 +5,18 @@ namespace DataProtection
 {
     public static class DependencyInfratucture
     {
-        public static IServiceCollection DependencyRegister(this IServiceCollection services)
+        public static IServiceCollection DependencyRegister(this IServiceCollection services, IConfiguration config)
         {
             services.AddDataProtection();
             //services.AddScoped<IDataProtectionService, DataProtectionService>();
-            ServiceDescriptor dataProtectionService = new ServiceDescriptor(typeof(IDataProtectionService), ser =>
+            ServiceDescriptor dataProtectionService = new ServiceDescriptor(typeof(IDataProtectionService), service =>
             {
-                var DataProtectionProviderService = ser.GetRequiredService<IDataProtectionProvider>();
-                var ConfigurationService = ser.GetRequiredService<IConfiguration>();
-                return new DataProtectionService(DataProtectionProviderService, ConfigurationService);
+                var DataProtectionProviderService = service.GetRequiredService<IDataProtectionProvider>();
+                string dataProtectionSecretKey = config.GetValue<string>("DataProtectionSecretKey");
+                IDataProtector protector = DataProtectionProviderService.CreateProtector(dataProtectionSecretKey);
+                return new DataProtectionService(protector);
             },
-            ServiceLifetime.Scoped);
+            ServiceLifetime.Singleton);
             services.Add(dataProtectionService);
 
             return services;
