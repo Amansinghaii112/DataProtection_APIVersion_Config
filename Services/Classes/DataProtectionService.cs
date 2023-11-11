@@ -7,10 +7,10 @@ namespace DataProtection
         private IDataProtector _protector { get; set; }
         private ITimeLimitedDataProtector _timeLimitedProtector { get; set; }
 
-        public DataProtectionService(IDataProtector protector)
+        public DataProtectionService(IDataProtector protector, ITimeLimitedDataProtector timeLimitedProtector)
         {
             _protector = protector;
-            _timeLimitedProtector = _protector.ToTimeLimitedDataProtector();
+            _timeLimitedProtector = timeLimitedProtector;
         }
 
         public string Decrypt(string cipher)

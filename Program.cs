@@ -1,3 +1,5 @@
+using DataProtection_APIVersion_Config.Middleware;
+
 namespace DataProtection
 {
     public class Program
@@ -21,7 +23,7 @@ namespace DataProtection
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseAuthorization();
 
 
